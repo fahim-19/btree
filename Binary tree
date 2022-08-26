@@ -1,0 +1,18 @@
+BinaryTreeNode<int>* buildTree(int *preorder, int preLength, int *inorder, int inLength) {
+	if(preLength<=0)return NULL;//edge case for empty node
+    
+    BinaryTreeNode<int>*rootNode= new BinaryTreeNode<int>(preorder[0]);
+    if(preLength==1)return rootNode;//base case for only single node/leaf node
+    
+    int rootIdx=0;
+    int LPreS=1,LPreE;
+    int LInS=0,LInE;
+    int i=0;
+    for(;inorder[i]!=preorder[rootIdx]; )
+        i++;
+    LInE=i-1;
+    LPreE=LPreS + (LInE-LInS);
+    rootNode->left=buildTree(preorder+1,LPreE,inorder,LPreE);
+    rootNode->right=buildTree(preorder+LPreE+1,preLength-(LPreE+1),inorder+LPreE+1,inLength-(LInE+2) );
+    return rootNode;
+}
